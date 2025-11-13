@@ -20,7 +20,6 @@ void display_menu()
     cout << "_________________MENU________________" << endl;
     cout << "  Items      |    Price  |  In Stock |" << endl;
 
-    // Loop through all items and show their name, price, and available stock
     for (int i = 1; i <= sizeof(items) / sizeof(items[i]); i++)
     {
         cout << i << ". " << items[i - 1] << "     |    " << price[i - 1]
@@ -42,43 +41,37 @@ float bill_calculator(string ordered_item, int quantity)
     float bill = 0;
     int i = 0;
 
-    // Loop through all items to find the one the user entered
     while (i < (sizeof(items) / sizeof(items[0])))
     {
         if (ordered_item == items[i])
         {
-            // Check if the requested quantity is available
             if (quantity <= qua[i])
             {
-                // Add item cost to total bill and reduce stock
                 bill = bill + quantity * price[i];
                 qua[i] = qua[i] - quantity;
                 return bill;
             }
             else
             {
-                // If not enough stock, tell the user
                 cout << "Sorry! We have only " << qua[i] << " " << items[i] << " in stock" << endl;
                 return bill;
             }
         }
         else
         {
-            
             i++;
             continue;
         }
-        // If item is not found in menu
-            cout << "Item not found in menu. Please enter a valid item name." << endl;
-            cout << "Please reorder your items." << endl;
 
-            // Show menu again and restart order process
-            display_menu();
-            taking_order();
-            repeat_order();
+        cout << "Item not found in menu. Please enter a valid item name." << endl;
+        cout << "Please reorder your items." << endl;
+
+        display_menu();
+        taking_order();
+        repeat_order();
     }
 
-    
+    return bill;
 }
 
 // Function to show bill details
@@ -89,7 +82,6 @@ float display_bill(float bill)
     cout << "****************BILL****************" << endl;
     cout << "Your bill amount is : " << bill << endl;
 
-    // Apply discounts depending on bill amount
     if ((bill > 5000) && (bill <= 10000))
     {
         discount = 0.05 * bill;
@@ -104,7 +96,6 @@ float display_bill(float bill)
         cout << "Bill after discount is : " << (bill - discount) << endl;
     }
 
-    // Add 8% tax on bill
     tax = 0.08 * bill;
     cout << "Tax on your bill is : " << tax << endl;
     cout << "Bill + tax is : " << bill + tax << endl;
@@ -120,7 +111,6 @@ void show_order_summary(vector<string> ordered_items, vector<int> quantities)
     cout << "***********ORDER SUMMARY**********" << endl;
     cout << "Item Name   Quantity" << endl;
 
-    // Display all ordered items and their quantities
     for (int i = 0; i < quantities.size(); i++)
     {
         cout << ordered_items[i] << "         " << quantities[i] << endl;
@@ -138,45 +128,39 @@ void taking_order()
     float bill = 0;
     string ordered_item;
 
-    // Ask user to enter first item
     cout << "Please enter the item name you want to order : ";
     cin >> ordered_item;
     cout << "Enter the quantity of " << ordered_item << " : ";
     cin >> quantity;
 
-    // Save the ordered item and quantity
     ordered_items.push_back(ordered_item);
     quantities.push_back(quantity);
 
     do
     {
-        // Add the cost of the current item to the total bill
         bill = bill + bill_calculator(ordered_item, quantity);
 
-        // Ask if the user wants to add more items or complete the order
         cout << "Enter other item name you want to order (or 'c' to complete order or 'r' to reorder): ";
         cin >> ordered_item;
 
         if (ordered_item == "r")
         {
-            // Restart the whole ordering process
             bill = 0;
             taking_order();
+            return;
         }
 
         if (ordered_item == "c")
         {
-            // If user finishes ordering, show bill and order summary
             display_bill(bill);
             show_order_summary(ordered_items, quantities);
             break;
         }
 
-        // Save next item and quantity
-        ordered_items.push_back(ordered_item);
-        quantities.push_back(quantity);
         cout << "Enter the quantity of " << ordered_item << " : ";
         cin >> quantity;
+        ordered_items.push_back(ordered_item);
+        quantities.push_back(quantity);
 
     } while (ordered_item != "c");
 }
@@ -190,7 +174,6 @@ void repeat_order()
 
     if (ch == 'y')
     {
-        // If yes, show menu again
         display_menu();
         taking_order();
     }
@@ -200,11 +183,11 @@ void repeat_order()
     }
 }
 
-// Main function — program starts here
 int main()
 {
-    display_menu();     // Show the menu first
-    taking_order();     // Take user's order
-    repeat_order();     // Ask if they want to order again
+    display_menu();
+    taking_order();
+    repeat_order();
     return 0;
 }
+
