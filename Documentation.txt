@@ -1,0 +1,107 @@
+===============================
+Restaurant Ordering System - Documentation
+===============================
+
+This program is a simple console-based restaurant order management system written in C++.
+It allows a user to view a menu, place orders, calculate bills with discounts and tax,
+and decide if they want to order again.
+
+---------------------------------
+Program Overview
+---------------------------------
+The system includes:
+- A menu with a list of food items, their prices, and quantities available.
+- Functions to display the menu, take orders, calculate the total bill,
+  show an order summary, and repeat the process if desired.
+- Discounts and tax applied to the final bill.
+
+---------------------------------
+Global Data
+---------------------------------
+1. `items[]`: List of available food items.
+2. `price[]`: Corresponding prices of each item.
+3. `qua[]`: Quantity available in stock for each item.
+
+These arrays are accessed across multiple functions for item validation, billing,
+and stock management.
+
+---------------------------------
+Functions and Their Roles
+---------------------------------
+
+1. **display_menu()**
+   - Prints a formatted menu of available items.
+   - Shows each item’s name, price, and stock count.
+   - Displays discount and tax information.
+   - Marks the start of the ordering process.
+
+2. **bill_calculator(string ordered_item, int quantity)**
+   - Searches for the ordered item in the menu.
+   - Checks if enough stock is available.
+   - If available, calculates the cost by multiplying quantity × price.
+   - Deducts the ordered quantity from stock.
+   - If the item isn’t found or stock is insufficient, it informs the user and restarts the order.
+
+3. **display_bill(float bill)**
+   - Displays the raw bill amount.
+   - Applies a 5% discount if the bill exceeds 5000.
+   - Applies a 10% discount if the bill exceeds 10000.
+   - Adds 8% tax to the total bill.
+   - Shows the detailed breakdown of the bill including tax and discount.
+   - Returns the final payable amount.
+
+4. **show_order_summary(vector<string> ordered_items, vector<int> quantities)**
+   - Displays all items that were ordered with their respective quantities.
+   - Helps the user review their complete order before payment.
+
+5. **taking_order()**
+   - Handles the full process of taking user input for orders.
+   - Prompts the user to enter item names and quantities.
+   - Uses `bill_calculator()` to compute the total bill.
+   - Supports adding multiple items in a single order.
+   - Lets the user restart the order (`r`) or complete it (`c`).
+   - After completion, displays the bill and order summary.
+
+6. **repeat_order()**
+   - Asks if the customer wants to place another order.
+   - If yes, the menu is shown again and the ordering process restarts.
+   - If no, the program thanks the user and ends.
+
+7. **main()**
+   - The entry point of the program.
+   - Calls `display_menu()`, then `taking_order()`, and finally `repeat_order()`.
+   - Ensures the entire program flow runs in proper order.
+
+---------------------------------
+Program Workflow
+---------------------------------
+
+1. **Start Program**
+   - `main()` runs automatically.
+   - The menu is displayed using `display_menu()`.
+
+2. **Order Taking**
+   - The user is prompted to enter item names and quantities in `taking_order()`.
+   - Each valid entry updates the bill via `bill_calculator()`.
+
+3. **Bill Calculation**
+   - Once the user finishes ordering, `display_bill()` is called to show discounts, tax, and total amount.
+
+4. **Order Summary**
+   - The final list of ordered items and their quantities is shown using `show_order_summary()`.
+
+5. **Repeat Option**
+   - The program calls `repeat_order()` to ask if the user wants to order again.
+   - If ‘y’, the process restarts. If ‘n’, the program ends with a thank-you message.
+
+---------------------------------
+Notes and Limitations
+---------------------------------
+- Input must match the exact item name from the menu i.e you cannot enter an invalid item name.
+- The program restarts the order process if an invalid item is entered.
+- Stock quantities reduce automatically after each order.
+- The discount for bills above 10000 is set to 10%, and for bills between 5000 and 10000 it is set to 5%.
+
+---------------------------------
+End of Documentation
+---------------------------------
